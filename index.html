@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVIATOR - ULTIMATE PRECISION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --red: #ff0044; 
+            --bg: #050505; 
+            --card-bg: #111111;
+            --accent: #00ff88;
+            --font-main: 'Inter', sans-serif;
+            --font-style: 'Orbitron', sans-serif;
+        }
+        
+        body { 
+            background: var(--bg); 
+            color: white; 
+            font-family: var(--font-main); 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            padding: 20px; 
+            margin: 0; 
+            min-height: 100vh;
+        }
+
+        .card { 
+            width: 100%; 
+            max-width: 380px; 
+            background: var(--card-bg); 
+            border: 1px solid #222; 
+            border-radius: 25px; 
+            padding: 25px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
+            position: relative;
+        }
+
+        /* Top neon glow effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: var(--red);
+            box-shadow: 0 0 15px var(--red);
+        }
+
+        h2 { 
+            text-align: center; 
+            color: var(--red); 
+            font-family: var(--font-style);
+            font-size: 14px; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            margin-bottom: 30px; 
+        }
+
+        label { 
+            display: block; 
+            font-family: var(--font-style);
+            font-size: 9px; 
+            color: #666; 
+            margin-bottom: 8px; 
+            text-transform: uppercase; 
+            font-weight: 900;
+        }
+
+        input { 
+            width: 100%; 
+            background: #000; 
+            border: 1px solid #333; 
+            color: #fff; 
+            padding: 15px; 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            text-align: center; 
+            font-family: 'Courier New', monospace; 
+            font-size: 16px; 
+            margin-bottom: 15px; 
+            outline: none; 
+            transition: 0.3s; 
+        }
+
+        input:focus { 
+            border-color: var(--red); 
+            box-shadow: 0 0 10px rgba(255, 0, 68, 0.2); 
+        }
+
+        .hash-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr; 
+            gap: 12px; 
+        }
+
+        button { 
+            width: 100%; 
+            padding: 18px; 
+            background: var(--red); 
+            color: #fff; 
+            border: none; 
+            border-radius: 15px; 
+            font-family: var(--font-style);
+            font-weight: 900; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            margin-top: 10px; 
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .res-box { 
+            margin-top: 25px; 
+            background: #000; 
+            padding: 20px; 
+            border-radius: 20px; 
+            text-align: center; 
+            border: 1px dashed #333; 
+            display: none; 
+        }
+
+        .res-time { 
+            font-family: var(--font-style);
+            font-size: 40px; 
+            font-weight: 900; 
+            color: var(--accent); 
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3); 
+        }
+
+        /* History Section Styles */
+        .history-section {
+            width: 100%;
+            max-width: 380px;
+            margin-top: 30px;
+        }
+
+        .history-title {
+            font-family: var(--font-style);
+            font-size: 10px;
+            color: #444;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-title::after { content: ''; flex: 1; height: 1px; background: #222; }
+
+        .history-list { list-style: none; padding: 0; margin: 0; }
+
+        .history-item {
+            background: #111;
+            margin-bottom: 8px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid var(--red);
+        }
+
+        .hist-ref { color: #555; font-size: 11px; }
+        .hist-time { 
+            color: var(--accent); 
+            font-family: var(--font-style); 
+            font-weight: bold; 
+            font-size: 13px; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🚀 AVIATOR STRATEGY V12</h2>
+
+    <label>Reference Time (HH:MM:SS)</label>
+    <input type="text" id="tIn" placeholder="00:38:12">
+
+    <div class="hash-grid">
+        <div>
+            <label>1st Hex</label>
+            <input type="text" id="h1" maxlength="1">
+        </div>
+        <div>
+            <label>Last Dec.</label>
+            <input type="text" id="dL" maxlength="1">
+        </div>
+        <div>
+            <label>Tail Hex</label>
+            <input type="text" id="hT" maxlength="2">
+        </div>
+    </div>
+
+    <button onclick="calculate()">Calculate Entry Point</button>
+
+    <div class="res-box" id="resBox">
+        <div style="font-size: 10px; color: #888; letter-spacing: 1px;">EXACT ENTRY POINT</div>
+        <div class="res-time" id="fTime">00:00:00</div>
+        <div style="font-size: 10px; color: #444; margin-top: 10px; text-transform: uppercase;">SHA-256 Synchronized Analysis</div>
+    </div>
+</div>
+
+<div class="history-section">
+    <div class="history-title">LAST 5 HISTORY</div>
+    <div id="historyList">
+        </div>
+</div>
+
+<script>
+    let historyData = [];
+
+    function calculate() {
+        const timeVal = document.getElementById('tIn').value;
+        const h1 = document.getElementById('h1').value;
+        const dL = document.getElementById('dL').value;
+        const hT = document.getElementById('hT').value;
+
+        if (!timeVal.includes(':') || h1 === "" || dL === "" || hT === "") return;
+
+        // 1. Data Conversion (Original Logic)
+        let val1 = parseInt(h1, 16);
+        let valLast = parseInt(dL, 10);
+        let valTail = parseInt(hT, 16);
+
+        // 2. Logic Calculation
+        let delay = (val1 * 13.5) + (valLast * 3.5) + (valTail % 60);
+        let finalDelay = (delay % 210) + 50; 
+
+        // 3. Time Processing
+        let parts = timeVal.split(':');
+        let d = new Date();
+        d.setHours(parseInt(parts[0]), parseInt(parts[1]), parseInt(parts[2]));
+        d.setSeconds(d.getSeconds() + finalDelay);
+
+        const resultTime = d.toLocaleTimeString('en-GB', { hour12: false });
+
+        // Display results
+        document.getElementById('fTime').innerText = resultTime;
+        document.getElementById('resBox').style.display = 'block';
+
+        // Update History
+        updateHistory(timeVal, resultTime);
+    }
+
+    function updateHistory(ref, result) {
+        historyData.unshift({ ref, result });
+        if (historyData.length > 5) historyData.pop();
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const list = document.getElementById('historyList');
+        list.innerHTML = '';
+        historyData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `
+                <span class="hist-ref">Ref: ${item.ref}</span>
+                <span class="hist-time">${item.result}</span>
+            `;
+            list.appendChild(div);
+        });
+    }
+</script>
+
+</body>
+</html>
